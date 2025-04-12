@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>RedCore Labs Auth Concept</title>
+  <link rel="stylesheet" href="style.css"/>
+</head>
+<body>
+  <div class="branding">
+    <div class="logo">🔴 RedCore Labs</div>
+  </div>
+
+  <section class="section fade-up">
+    <div class="container">
+      <div class="form-toggle">
+        <button id="signInBtn" class="active">Sign In</button>
+        <button id="signUpBtn">Sign Up</button>
+      </div>
+
+      <div class="form-wrapper">
+        <form id="signInForm" class="auth-form active">
+          <h2>Welcome Back</h2>
+          <input type="text" placeholder="Username"/>
+          <input type="password" placeholder="Password"/>
+          <button>Sign In</button>
+        </form>
+
+        <form id="signUpForm" class="auth-form">
+          <h2>Create Account</h2>
+          <input type="text" placeholder="Username"/>
+          <input type="email" placeholder="Email"/>
+          <input type="password" placeholder="Password"/>
+          <button>Sign Up</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Scroll filler -->
+  <section class="section fade-up scroll-space">
+    <p>Scroll down to see the magic ✨</p>
+  </section>
+
+  <section class="section fade-up end-section">
+    <p>This concept was crafted by <strong>JC</strong> — 🇵🇭 Philippines</p>
+  </section>
+
+  <script>
+    // Form toggle
+    const toggleForm = (activeBtn, inactiveBtn, activeForm, inactiveForm) => {
+      activeBtn.classList.add("active");
+      inactiveBtn.classList.remove("active");
+      activeForm.classList.add("active");
+      inactiveForm.classList.remove("active");
+    };
+
+    document.getElementById("signInBtn").onclick = () => {
+      toggleForm(
+        document.getElementById("signInBtn"),
+        document.getElementById("signUpBtn"),
+        document.getElementById("signInForm"),
+        document.getElementById("signUpForm")
+      );
+    };
+
+    document.getElementById("signUpBtn").onclick = () => {
+      toggleForm(
+        document.getElementById("signUpBtn"),
+        document.getElementById("signInBtn"),
+        document.getElementById("signUpForm"),
+        document.getElementById("signInForm")
+      );
+    };
+
+    // Scroll fade animation
+    const faders = document.querySelectorAll(".fade-up");
+    const appearOnScroll = new IntersectionObserver(
+      (entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("appear");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    faders.forEach(el => appearOnScroll.observe(el));
+
+    // Smooth scrolling animation
+    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+      anchor.addEventListener('click', function (e) {
+        e.preventDefault();
+        document.querySelector(this.getAttribute('href')).scrollIntoView({
+          behavior: 'smooth'
+        });
+      });
+    });
+
+    // Optional: Add a scroll listener to enhance transitions
+    window.addEventListener('scroll', () => {
+      const sections = document.querySelectorAll('.section');
+      sections.forEach(section => {
+        const rect = section.getBoundingClientRect();
+        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
+          section.style.transition = 'opacity 0.5s ease-in-out';
+          section.style.opacity = 1;
+        } else {
+          section.style.opacity = 0.5;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
