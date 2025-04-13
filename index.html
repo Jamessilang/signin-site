@@ -21,38 +21,58 @@
       <div class="form-wrapper">
         <form id="signInForm" class="auth-form active">
           <h2>Welcome Back</h2>
-          <input type="text" placeholder="Username"/>
-          <input type="password" placeholder="Password"/>
-          <button>Sign In</button>
+          <input type="text" placeholder="Username" required/>
+          <input type="password" placeholder="Password" required/>
+          <button type="submit" class="submit-btn">Sign In</button>
         </form>
 
         <form id="signUpForm" class="auth-form">
           <h2>Create Account</h2>
-          <input type="text" placeholder="Username"/>
-          <input type="email" placeholder="Email"/>
-          <input type="password" placeholder="Password"/>
-          <button>Sign Up</button>
+          <input type="text" placeholder="Username" required/>
+          <input type="password" placeholder="Password" required/>
+          <button type="submit" class="submit-btn">Sign Up</button>
         </form>
       </div>
     </div>
   </section>
 
-  <!-- Scroll filler -->
-  <section class="section fade-up scroll-space">
-    <p>Scroll down to see the magic ✨</p>
+  <!-- New Features Section -->
+  <section class="section fade-up features">
+    <h2>Features</h2>
+    <ul>
+      <li>Secure and fast authentication.</li>
+      <li>Responsive design for all devices.</li>
+      <li>Seamless transitions between forms.</li>
+      <li>Interactive animations for a better user experience.</li>
+      <li>Mobile-friendly and optimized for Android.</li>
+    </ul>
   </section>
 
-  <section class="section fade-up end-section">
-    <p>This concept was crafted by <strong>JC</strong> — 🇵🇭 Philippines</p>
-  </section>
+  <!-- Credits Modal -->
+  <div id="creditsModal" class="modal">
+    <div class="modal-content">
+      <span class="close-btn" id="closeCredits">&times;</span>
+      <h2>Credits</h2>
+      <p>This concept was crafted by <strong>JC</strong> — 🇵🇭 Philippines</p>
+    </div>
+  </div>
+
+  <button id="viewCredits" class="credits-btn">View Credits</button>
 
   <script>
-    // Form toggle
+    // Form toggle with animation
     const toggleForm = (activeBtn, inactiveBtn, activeForm, inactiveForm) => {
       activeBtn.classList.add("active");
       inactiveBtn.classList.remove("active");
-      activeForm.classList.add("active");
-      inactiveForm.classList.remove("active");
+      activeForm.classList.add("slide-in");
+      inactiveForm.classList.add("slide-out");
+
+      setTimeout(() => {
+        activeForm.classList.remove("slide-in");
+        inactiveForm.classList.remove("slide-out");
+        activeForm.classList.add("active");
+        inactiveForm.classList.remove("active");
+      }, 500); // Match the CSS animation duration
     };
 
     document.getElementById("signInBtn").onclick = () => {
@@ -73,6 +93,14 @@
       );
     };
 
+    // Redirect to Rick Roll on form submission
+    document.querySelectorAll(".submit-btn").forEach(button => {
+      button.addEventListener("click", (e) => {
+        e.preventDefault();
+        window.location.href = "https://www.youtube.com/watch?v=dQw4w9WgXcQ";
+      });
+    });
+
     // Scroll fade animation
     const faders = document.querySelectorAll(".fade-up");
     const appearOnScroll = new IntersectionObserver(
@@ -89,29 +117,25 @@
 
     faders.forEach(el => appearOnScroll.observe(el));
 
-    // Smooth scrolling animation
-    document.querySelectorAll('a[href^="#"]').forEach(anchor => {
-      anchor.addEventListener('click', function (e) {
-        e.preventDefault();
-        document.querySelector(this.getAttribute('href')).scrollIntoView({
-          behavior: 'smooth'
-        });
-      });
-    });
+    // Credits Modal
+    const creditsModal = document.getElementById("creditsModal");
+    const viewCredits = document.getElementById("viewCredits");
+    const closeCredits = document.getElementById("closeCredits");
 
-    // Optional: Add a scroll listener to enhance transitions
-    window.addEventListener('scroll', () => {
-      const sections = document.querySelectorAll('.section');
-      sections.forEach(section => {
-        const rect = section.getBoundingClientRect();
-        if (rect.top >= 0 && rect.bottom <= window.innerHeight) {
-          section.style.transition = 'opacity 0.5s ease-in-out';
-          section.style.opacity = 1;
-        } else {
-          section.style.opacity = 0.5;
-        }
-      });
-    });
+    viewCredits.onclick = () => {
+      creditsModal.style.display = "block";
+    };
+
+    closeCredits.onclick = () => {
+      creditsModal.style.display = "none";
+    };
+
+    window.onclick = (event) => {
+      if (event.target === creditsModal) {
+        creditsModal.style.display = "none";
+      }
+    };
   </script>
 </body>
 </html>
+
